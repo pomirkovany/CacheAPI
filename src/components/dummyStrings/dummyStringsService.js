@@ -24,6 +24,16 @@ class DummyStringsService {
     }
 
     /**
+     *
+     * @param key
+     * @param newItem
+     * @returns {Promise<*>}
+     */
+    async updateByKey(key, newItem) {
+        return await this.model.updateByKey(key, newItem);
+    }
+
+    /**
      * Returns 5 char long random string
      *
      * @returns {string}

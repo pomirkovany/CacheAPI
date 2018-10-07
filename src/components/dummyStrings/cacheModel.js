@@ -52,6 +52,21 @@ class CacheModel {
     }
 
     /**
+     *
+     * @param key
+     * @param newItem
+     * @returns {Promise<*>}
+     */
+    async updateByKey(key, newItem) {
+        const result = await this.getCollection().updateOne(
+            {key},
+            { $set: {item: newItem, createdAt: new Date()} },
+            { upsert: true }
+        );
+        return result.updatedExisting;
+    }
+
+    /**
      * Returns item by key and refreshes its TTL
      *
      * @param key
@@ -65,6 +80,7 @@ class CacheModel {
             );
         return result.value ? result.value.item : null;
     }
+
 }
 
 module.exports = CacheModel;
