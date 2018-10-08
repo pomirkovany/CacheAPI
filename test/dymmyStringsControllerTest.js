@@ -3,13 +3,14 @@ const sinon = require('sinon');
 const DummyStringsService = require('../src/components/dummyStrings/dummyStringsService');
 const CacheModel = require('../src/components/dummyStrings/cacheModel');
 const DummyStringsController = require('../src/components/dummyStrings/DummyStringsController');
+const configProvider = require('..//src/integration/configProvider');
 
 const MongoConnectionMock = require('./mock/mongoConnectionMock');
 
 
 tap.test("getDummyString should return cached or random string depending on hit", async childTest => {
 
-    const cacheModel = new CacheModel(new MongoConnectionMock());
+    const cacheModel = new CacheModel(new MongoConnectionMock(), configProvider);
     const dummyStringsService = new DummyStringsService(cacheModel);
     const dummyStringsController = new DummyStringsController(dummyStringsService);
 
@@ -35,7 +36,7 @@ tap.test("getDummyString should return cached or random string depending on hit"
 
 tap.test("updateDummyString should set 404 response status if req has no body", async childTest => {
 
-    const cacheModel = new CacheModel(new MongoConnectionMock());
+    const cacheModel = new CacheModel(new MongoConnectionMock(), configProvider);
     const dummyStringsService = new DummyStringsService(cacheModel);
     const dummyStringsController = new DummyStringsController(dummyStringsService);
 
@@ -54,7 +55,7 @@ tap.test("updateDummyString should set 404 response status if req has no body", 
 
 tap.test("updateDummyString should set appropriate response status depending on update result", async childTest => {
 
-    const cacheModel = new CacheModel(new MongoConnectionMock());
+    const cacheModel = new CacheModel(new MongoConnectionMock(), configProvider);
     const dummyStringsService = new DummyStringsService(cacheModel);
     const dummyStringsController = new DummyStringsController(dummyStringsService);
 

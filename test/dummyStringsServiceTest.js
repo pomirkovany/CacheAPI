@@ -1,8 +1,8 @@
 const tap = require('tap');
-const sinon = require('sinon');
 const DummyStringsService = require('../src/components/dummyStrings/dummyStringsService');
 const CacheModel = require('../src/components/dummyStrings/cacheModel');
 const MongoConnectionMock = require('./mock/mongoConnectionMock');
+const configProvider = require('..//src/integration/configProvider');
 
 tap.test("static getRandomString should return random string", childTest => {
     const randomString = DummyStringsService.getRandomString();
@@ -14,7 +14,7 @@ tap.test("static getRandomString should return random string", childTest => {
 });
 
 tap.test("getDummyString should return value from cache or random string", async childTest => {
-    const cacheModel = new CacheModel(new MongoConnectionMock());
+    const cacheModel = new CacheModel(new MongoConnectionMock(), configProvider);
     const dummyStringsService = new DummyStringsService(cacheModel);
 
     const cacheHitResult = await dummyStringsService.getDummyString("test1");
