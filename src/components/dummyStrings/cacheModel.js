@@ -1,3 +1,18 @@
+/**
+ * Cache model works based on mongo db collection.
+ * Collection is created with TTL index to support items expiration.
+ *
+ * The cache size is limited by config.MAX_SIZE value. The oldest item
+ * in the collection (the one with the oldest createdAt date) will be
+ * replaced in case if limit is reached. This allows more to have
+ * more consistent TTL behaviour, thought isn't the perfect in terms
+ * of performance
+ *
+ * Note: TTL doesn't expire item exactly after set seconds, because of the way
+ * mongo's expireAfterSeconds index works. Mongo's background thread cleanups expired ttl
+ * items after each ~60s
+ *
+ */
 class CacheModel {
 
     constructor(mongoConnection, configProvider) {
