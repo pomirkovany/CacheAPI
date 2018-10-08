@@ -40,19 +40,6 @@ And the setup the mongo collection by running:
 node mongo_data.js
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
 
 Now you can run the app:
 
@@ -65,7 +52,6 @@ You can also run it in dev mode with nodemon
 ```
 npm run dev
 ```
-
 
 ## Structure
 
