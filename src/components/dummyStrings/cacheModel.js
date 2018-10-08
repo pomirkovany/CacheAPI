@@ -1,9 +1,8 @@
-const MAX_SIZE = process.env.MAX_SIZE ? process.env.MAX_SIZE : 20;
-
 class CacheModel {
 
-    constructor(mongoConnection) {
+    constructor(mongoConnection, configProvider) {
         this.mongoConnection = mongoConnection;
+        this.configProvider = configProvider;
     }
 
     /**
@@ -23,7 +22,7 @@ class CacheModel {
     getCollection() {
         return this.mongoConnection
             .db()
-            .collection("dummyStrings");
+            .collection(this.configProvider.mongo.cacheCollectionName);
     }
 
     /**
@@ -35,7 +34,7 @@ class CacheModel {
      * @returns {Promise<void>}
      */
     async insert(key, item) {
-        if((await this.getCacheSize()) == MAX_SIZE) {
+        if((await this.getCacheSize()) >= this.configProvider.mongo.cacheMaxSize) {
             await this.getCollection().findOneAndUpdate(
                 { },
                 { $set: {key, item, createdAt: new Date()} },

@@ -1,7 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://127.0.0.1:27017/cache-db';
+const configProvider = require('./src/integration/configProvider');
 
-MongoClient.connect('mongodb://127.0.0.1:27017/cache-db', {
+MongoClient.connect(configProvider.mongo.mongoUrl, {
         useNewUrlParser: true
     }, async (err, db) => {
 
@@ -16,7 +16,7 @@ MongoClient.connect('mongodb://127.0.0.1:27017/cache-db', {
 
         //adding index with ttl
         await dbo.collection('dummyStrings')
-          .createIndex({ "createdAt": 1 }, { expireAfterSeconds: 120 });
-       process.exit();
+            .createIndex({ "createdAt": 1 }, { expireAfterSeconds: configProvider.mongo.cacheTtlSeconds});
+        process.exit();
     }
 );

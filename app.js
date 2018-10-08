@@ -1,4 +1,5 @@
 "use strict";
+require('dotenv').config({silent: true});
 // external dependencies
 const express = require('express');
 const logger = require('morgan');
@@ -6,6 +7,8 @@ const MongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
 
 //internal dependencies
+const configProvider = require('./src/integration/configProvider');
+
 const DummyStringsService = require('./src/components/dummyStrings/dummyStringsService');
 const DummyStringsController = require('./src/components/dummyStrings/dummyStringsController');
 const CacheModel = require('./src/components/dummyStrings/cacheModel');
@@ -19,8 +22,8 @@ app.use(bodyParser.json());
 let mongoConnectionPool;
 
 // initiating mongo connection pool
-MongoClient.connect('mongodb://127.0.0.1:27017/cache-db', {
-        poolSize: 20,
+MongoClient.connect(configProvider.mongo.mongoUrl, {
+        poolSize: configProvider.mongo.mongoPoolSize,
         useNewUrlParser: true
         // other options can go here
     }, (err, db) => {
@@ -30,7 +33,7 @@ MongoClient.connect('mongodb://127.0.0.1:27017/cache-db', {
         // Simple dependency injection.
         // In the real world app I would use some DI framework
 
-        const cacheModel = new CacheModel(mongoConnectionPool);
+        const cacheModel = new CacheModel(mongoConnectionPool, configProvider);
         const dummyStringsService = new DummyStringsService(cacheModel);
         const dummyStringsController = new DummyStringsController(dummyStringsService);
 
