@@ -34,6 +34,24 @@ class DummyStringsService {
     }
 
     /**
+     *
+     * @param key
+     * @returns {Promise<*>}
+     */
+    async removeByKey(key) {
+        return await this.model.removeByKey(key);
+    }
+
+    /**
+     *
+     * @param key
+     * @returns {Promise<*>}
+     */
+    async removeAll(key) {
+        return await this.model.removeAll();
+    }
+
+    /**
      * Returns 5 char long random string
      *
      * @returns {string}

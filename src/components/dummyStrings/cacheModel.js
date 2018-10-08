@@ -81,6 +81,29 @@ class CacheModel {
         return result.value ? result.value.item : null;
     }
 
+    /**
+     *
+     * @param key
+     * @returns {Promise<number|*|Number>}
+     */
+    async removeByKey(key) {
+        const result = await this.getCollection()
+            .deleteOne({key}, true);
+        console.log(result.deletedCount);
+        return result.deletedCount;
+
+    }
+
+    /**
+     *
+     * @returns {Promise<number|*|Number>}
+     */
+    async removeAll() {
+        const result = await this.getCollection()
+            .deleteMany({});
+        return result.deletedCount;
+    }
+
 }
 
 module.exports = CacheModel;

@@ -4,6 +4,8 @@ class DummyStringsController {
         this.dummyStringsService = service;
         this.getDummyString = this.getDummyString.bind(this);
         this.updateDummyString = this.updateDummyString.bind(this);
+        this.deleteByKey = this.deleteByKey.bind(this);
+        this.deleteAll = this.deleteAll.bind(this);
     }
 
     /**
@@ -48,6 +50,44 @@ class DummyStringsController {
         } catch (e) {
             next(e);
         }
+    }
+
+    /**
+     * DELETE /dummy-strings/:key
+     *
+     * @param req
+     * @param res
+     * @param next
+     * @returns {Promise<void>}
+     */
+    async deleteByKey(req, res, next) {
+        try {
+            const deletedCount = await this.dummyStringsService.removeByKey(req.params.key);
+            res.status(deletedCount === 0 ? 404 : 204);
+            res.send();
+        } catch(e) {
+            next(e);
+        }
+    }
+
+    /**
+     * DELETE /dummy-strings/
+     *
+     * Deletes all items from the cache
+     *
+     * @param req
+     * @param res
+     * @returns {Promise<void>}
+     */
+    async deleteAll(req, res, next) {
+        try {
+            const deletedCount = await this.dummyStringsService.removeAll();
+            res.status(deletedCount === 0 ? 404 : 204);
+            res.send();
+        } catch (e) {
+            next(e);
+        }
+
     }
 
 }
