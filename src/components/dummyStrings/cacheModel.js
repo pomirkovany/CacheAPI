@@ -52,8 +52,8 @@ class CacheModel {
         if((await this.getCacheSize()) >= this.configProvider.mongo.cacheMaxSize) {
             await this.getCollection().findOneAndUpdate(
                 { },
-                { $set: {key, item, createdAt: new Date()} },
-                { sort: {createdAt:1}, }
+                { $set: { key, item, createdAt: new Date() } },
+                { sort: { createdAt:1 }, }
             );
         } else {
             await this.getCollection()
@@ -74,7 +74,7 @@ class CacheModel {
     async updateByKey(key, newItem) {
         const result = await this.getCollection().updateOne(
             {key},
-            { $set: {item: newItem, createdAt: new Date()} },
+            { $set: { item: newItem, createdAt: new Date() } },
             { upsert: true }
         );
         return result.updatedExisting;
@@ -96,13 +96,27 @@ class CacheModel {
     }
 
     /**
+     * Returns all keys in the collection
+     *
+     * @returns {Promise<*>}
+     */
+    async getAllKeys() {
+        const result = await this.getCollection()
+            .find(
+                {}
+            )
+            .toArray();
+        return result.map(item => item.key);
+    }
+
+    /**
      *
      * @param key
      * @returns {Promise<number|*|Number>}
      */
     async removeByKey(key) {
         const result = await this.getCollection()
-            .deleteOne({key}, true);
+            .deleteOne( { key }, true );
         console.log(result.deletedCount);
         return result.deletedCount;
 

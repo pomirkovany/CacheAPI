@@ -36,6 +36,17 @@ class DummyStringsService {
     /**
      *
      * @param key
+     * @param newItem
+     * @returns {Promise<*>}
+     */
+    async getAllKeys() {
+        return await this.model.getAllKeys();
+    }
+
+
+    /**
+     *
+     * @param key
      * @returns {Promise<*>}
      */
     async removeByKey(key) {

@@ -6,6 +6,7 @@ class DummyStringsController {
         this.updateDummyString = this.updateDummyString.bind(this);
         this.deleteByKey = this.deleteByKey.bind(this);
         this.deleteAll = this.deleteAll.bind(this);
+        this.getAllKeys = this.getAllKeys.bind(this);
     }
 
     /**
@@ -22,6 +23,24 @@ class DummyStringsController {
     async getDummyString(req, res, next) {
         try {
             const result = await this.dummyStringsService.getDummyString(req.params.key);
+            res.send({result});
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    /**
+     * GET /dummy-strings/keys
+     * Retrieves all keys stored in cache
+     *
+     * @param req
+     * @param res
+     * @param next
+     * @returns {Promise<void>}
+     */
+    async getAllKeys(req, res, next) {
+        try {
+            const result = await this.dummyStringsService.getAllKeys();
             res.send({result});
         } catch (e) {
             next(e);
