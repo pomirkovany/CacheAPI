@@ -5,7 +5,10 @@
   "scripts": {
     "start": "node ./bin/www",
     "mongoinit": "node mongo_data.js",
-    "dev": "nodemon ./bin/www"
+    "dev": "nodemon ./bin/www",
+    "test": "tap test/*.js",
+    "coverage": "npm test -- --cov",
+    "report": "npm test -- --cov --coverage-report=lcov"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -14,6 +17,8 @@
     "morgan": "~1.9.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.4",
+    "sinon": "^6.3.5",
+    "tap": "^12.0.1"
   }
 }
